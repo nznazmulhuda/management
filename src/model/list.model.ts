@@ -6,6 +6,7 @@ export interface IList extends Document {
 	customerAddress: string;
 	productQuantity: number;
 	productType: string;
+	productColor: string;
 	totalPrice: number;
 	deliveryPrice: number;
 	deliveryType: string;
@@ -37,6 +38,11 @@ export const ListSchema = new Schema<IList>(
 			required: true,
 			enum: ["printed", "solid", "jersey", "polo", "pant"],
 		},
+		productColor: {
+			type: String,
+			required: true,
+			enum: ["black", "white", "maroon", "bottle-green"],
+		},
 		totalPrice: {
 			type: Number,
 			required: true,
@@ -48,7 +54,7 @@ export const ListSchema = new Schema<IList>(
 		deliveryType: {
 			type: String,
 			required: true,
-			enum: ["pathaw", "courier", "orbit"],
+			enum: ["pathao", "courier", "orbit"],
 		},
 		description: {
 			type: String,
