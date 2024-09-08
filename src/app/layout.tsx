@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { Navbar } from "@/components/shared/Navbar";
+import { connectToMongoDB } from "@/lib/db";
 
 export const metadata: Metadata = {
 	title: "Orbit Outfits Management",
@@ -12,6 +13,8 @@ export default function RootLayout({
 }: Readonly<{
 	children: React.ReactNode;
 }>) {
+	connectToMongoDB();
+
 	return (
 		<html lang="en">
 			{/* body */}
