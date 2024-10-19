@@ -3,4 +3,7 @@ import path from 'path';
 
 dotenv.config({ path: path.join((process.cwd(), '.env')) });
 
-export const port = process.env.PORT;
+type Tenv = string | number | undefined;
+
+export const port: Tenv = process.env.PORT;
+export const db_uri: Tenv = process.env.DB_URI;
