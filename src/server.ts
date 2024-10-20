@@ -1,3 +1,3 @@
-import { connectDB } from './db/connectDB';
+import { connectDB } from './app/utils/connectDB';
 
 connectDB(); // database connection

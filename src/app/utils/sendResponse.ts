@@ -5,12 +5,12 @@ type TResponse<T> = {
   statusCode: number;
   success: boolean;
   message: string;
-  token: string;
-  data: T;
+  token?: string;
+  data?: T;
 };
 
 export default function sendResponse<T>(res: Response, data: TResponse<T>) {
-  res.status(data.statusCode).json({
+  return res.status(data.statusCode).send({
     message: data.message,
     success: data.success,
     token: data.token,

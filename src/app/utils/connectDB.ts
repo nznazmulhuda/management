@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 import { db_uri, port } from '../config';
-import app from '../app';
+import app from '../../app';
 
 export const connectDB = async () => {
   try {
