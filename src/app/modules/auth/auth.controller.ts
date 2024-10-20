@@ -20,6 +20,7 @@ export const login = catchAsync(
       });
     }
 
+    // create a pyload for jwt token
     const paylod = {
       email: user.data?.email,
       role: user.data?.role,

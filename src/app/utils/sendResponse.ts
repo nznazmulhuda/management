@@ -18,7 +18,6 @@ export default function sendResponse<T>(res: Response, data: TResponse<T>) {
       .send({
         message: data.message,
         success: data.success,
-        token: data.token,
         data: data.data,
       });
   }
