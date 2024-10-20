@@ -10,14 +10,14 @@ export const getAllUser = async (
   const allUser = await getAllUserFromDB();
 
   if (allUser.length === 0) {
-    sendResponse(res, {
+    return sendResponse(res, {
       success: false,
       statusCode: httpStatus.NOT_FOUND,
       message: 'No data in database',
     });
   }
 
-  sendResponse(res, {
+  return sendResponse(res, {
     success: true,
     statusCode: httpStatus.OK,
     data: allUser,

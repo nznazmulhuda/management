@@ -10,7 +10,7 @@ type TResponse<T> = {
 };
 
 export default function sendResponse<T>(res: Response, data: TResponse<T>) {
-  return res.status(data.statusCode).send({
+  res.status(data.statusCode).send({
     message: data.message,
     success: data.success,
     token: data.token,
