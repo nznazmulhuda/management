@@ -1,4 +1,3 @@
-import { Types } from 'mongoose';
 import { User } from '../user/user.model';
 import bcrypt from 'bcrypt';
 
@@ -8,7 +7,12 @@ export const loginByEmail = async (
 ): Promise<{
   message: string;
   success: boolean;
-  data?: { name: string; email: string; phone: string; id: Types.ObjectId };
+  data?: {
+    name: string;
+    email: string;
+    phone: string;
+    role: string;
+  };
 }> => {
   const user = await User.findOne({ email: mail });
 
@@ -32,11 +36,6 @@ export const loginByEmail = async (
   return {
     message: 'user found success!',
     success: true,
-    data: {
-      id: user._id,
-      name: user.name,
-      email: user.email,
-      phone: user.phone,
-    },
+    data: user,
   };
 };
