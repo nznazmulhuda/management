@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import catchAsync from '../../utils/catchAsync';
 import {
+  addSellDataDB,
   deleteSellFromDB,
   getAllSellFromDB,
   getSingleSellFromDB,
@@ -51,6 +52,29 @@ export const singleSellData = catchAsync(
       success: true,
       statusCode: httpStatus.OK,
       data: cursor,
+    });
+  },
+);
+
+// add new sell data
+export const addSellData = catchAsync(
+  async (req: Request, res: Response): Promise<void> => {
+    const data = req.body;
+
+    const isAdded = addSellDataDB(data);
+
+    if (!isAdded) {
+      return sendResponse(res, {
+        message: 'Data added failed!',
+        success: false,
+        statusCode: httpStatus.BAD_REQUEST,
+      });
+    }
+
+    return sendResponse(res, {
+      message: 'Data added successfully!',
+      success: true,
+      statusCode: httpStatus.OK,
     });
   },
 );

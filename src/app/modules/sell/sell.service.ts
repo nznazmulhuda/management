@@ -25,6 +25,11 @@ export const getSingleSellFromDB = async (
   };
 };
 
+// add new sell data at db
+export const addSellDataDB = async (data: TSell) => {
+  return await new Sell(data).save();
+};
+
 // update data
 export const updateSellFromDB = async (
   id: string,
