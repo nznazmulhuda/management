@@ -5,6 +5,7 @@ import express, { Application, Request, Response } from 'express';
 import { port } from './app/config';
 import UserRouter from './app/modules/user/user.route';
 import AuthRouter from './app/modules/auth/auth.route';
+import SellRouter from './app/modules/sell/sell.route';
 
 const app: Application = express();
 
@@ -17,6 +18,7 @@ app.use(express.urlencoded({ extended: true }));
 // app route
 app.use('/api', UserRouter);
 app.use('/api', AuthRouter);
+app.use('/api', SellRouter);
 
 // default route
 app.get('/', (req: Request, res: Response) => {

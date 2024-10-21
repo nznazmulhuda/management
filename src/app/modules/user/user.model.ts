@@ -3,29 +3,34 @@ import bcrypt from 'bcrypt';
 import { TUser, UserModel } from './user.interface';
 import { bcrypt_salt_round } from '../../config';
 
-const userSchema = new Schema<TUser, UserModel>({
-  name: {
-    type: String,
-    required: true,
+const userSchema = new Schema<TUser, UserModel>(
+  {
+    name: {
+      type: String,
+      required: true,
+    },
+    email: {
+      type: String,
+      required: true,
+    },
+    password: {
+      type: String,
+      required: true,
+    },
+    phone: {
+      type: String,
+      required: true,
+    },
+    role: {
+      type: String,
+      required: true,
+      enum: ['admin', 'investor'],
+    },
   },
-  email: {
-    type: String,
-    required: true,
+  {
+    timestamps: true,
   },
-  password: {
-    type: String,
-    required: true,
-  },
-  phone: {
-    type: String,
-    required: true,
-  },
-  role: {
-    type: String,
-    required: true,
-    enum: ['admin', 'investor'],
-  },
-});
+);
 
 userSchema.pre('save', async function (next) {
   const user = this; // doc
