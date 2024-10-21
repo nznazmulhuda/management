@@ -1,6 +1,11 @@
 import { Request, Response } from 'express';
 import catchAsync from '../../utils/catchAsync';
-import { getAllSellFromDB, getSingleSellFromDB } from './sell.service';
+import {
+  deleteSellFromDB,
+  getAllSellFromDB,
+  getSingleSellFromDB,
+  updateSellFromDB,
+} from './sell.service';
 import sendResponse from '../../utils/sendResponse';
 import httpStatus from 'http-status';
 
@@ -27,23 +32,71 @@ export const allSellData = catchAsync(
 );
 
 // get single data by using id and send to client
-export const singleSellData = catchAsync(async (req, res) => {
-  const { id } = req.body;
+export const singleSellData = catchAsync(
+  async (req: Request, res: Response): Promise<void> => {
+    const { id } = req.body;
 
-  const cursor = await getSingleSellFromDB(id);
+    const cursor = await getSingleSellFromDB(id);
 
-  if ('success' in cursor && !cursor.success) {
+    if ('success' in cursor && !cursor.success) {
+      return sendResponse(res, {
+        message: 'Sell data not found!',
+        success: false,
+        statusCode: httpStatus.NOT_FOUND,
+      });
+    }
+
     return sendResponse(res, {
-      message: 'Sell data not found!',
-      success: false,
-      statusCode: httpStatus.NOT_FOUND,
+      message: 'Sell data found!',
+      success: true,
+      statusCode: httpStatus.OK,
+      data: cursor,
     });
-  }
+  },
+);
 
-  return sendResponse(res, {
-    message: 'Sell data found!',
-    success: true,
-    statusCode: httpStatus.OK,
-    data: cursor,
-  });
-});
+// update a single data
+export const updateSellData = catchAsync(
+  async (req: Request, res: Response): Promise<void> => {
+    const { id, data } = req.body;
+
+    const isUpdate = await updateSellFromDB(id, data);
+
+    if (!isUpdate) {
+      return sendResponse(res, {
+        message: 'Unable to update sell data!',
+        success: false,
+        statusCode: httpStatus.NOT_MODIFIED,
+      });
+    }
+
+    return sendResponse(res, {
+      message: 'Updated success!',
+      success: true,
+      statusCode: httpStatus.OK,
+    });
+  },
+);
+
+// delete a single data
+export const deleteSellData = catchAsync(
+  async (req: Request, res: Response): Promise<void> => {
+    const { id } = req.body;
+
+    const isDelete = await deleteSellFromDB(id);
+
+    if (!isDelete) {
+      return sendResponse(res, {
+        message: 'Unable to delete this sell data!',
+        success: false,
+        statusCode: httpStatus.NOT_IMPLEMENTED,
+      });
+    }
+
+    return sendResponse(res, {
+      message: 'Deleted successfully!',
+      success: true,
+      statusCode: httpStatus.OK,
+    });
+  },
+);
