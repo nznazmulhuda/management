@@ -11,8 +11,8 @@ import { JwtVerify } from '../../middlewares/jwtVerify';
 const router: Router = Router();
 
 router.get('/sells', JwtVerify, allSellData); // get all data
-router.get('/sell', JwtVerify, singleSellData); // get single data
-router.post('/sell', JwtVerify, addSellData); // get single data
+router.get('/sell', JwtVerify, singleSellData); // get single data by id
+router.post('/sell', JwtVerify, addSellData); // add single data
 router.put('/sell', JwtVerify, updateSellData); // update single data
 router.delete('/sell', JwtVerify, deleteSellData); // delete single data
 
