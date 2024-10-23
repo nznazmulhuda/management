@@ -1,9 +1,14 @@
+import httpStatus from 'http-status';
 import { Request, Response } from 'express';
 import catchAsync from '../../utils/catchAsync';
 import sendResponse from '../../utils/sendResponse';
-import httpStatus from 'http-status';
-import { filterByNameDB, filterByPriceDB } from './filter.service';
+import {
+  filterByNameDB,
+  filterByPriceDB,
+  filterOnOrderStatusDB,
+} from './filter.service';
 
+// filter by name
 export const filterByName = catchAsync(
   async (req: Request, res: Response): Promise<void> => {
     const { name } = req.params;
@@ -41,6 +46,7 @@ export const filterByName = catchAsync(
   },
 );
 
+// filter by total price
 export const filterByTotalPrice = catchAsync(
   async (req: Request, res: Response): Promise<void> => {
     const { order } = req.params;
@@ -54,8 +60,10 @@ export const filterByTotalPrice = catchAsync(
       });
     }
 
+    // get data from service
     const data = await filterByPriceDB(order as 'asc' | 'dsc');
 
+    // if there is no data
     if (!data) {
       return sendResponse(res, {
         message: 'Invalid order type!',
@@ -64,6 +72,42 @@ export const filterByTotalPrice = catchAsync(
       });
     }
 
+    // when data is fetched successfully
+    return sendResponse(res, {
+      message: 'Data fetched successfully!',
+      statusCode: httpStatus.OK,
+      success: true,
+      data: data,
+    });
+  },
+);
+
+// filter on order status
+export const filterOnOrderStatus = catchAsync(
+  async (req: Request, res: Response): Promise<void> => {
+    const { status } = req.params;
+
+    // get data from db
+    const data = await filterOnOrderStatusDB(
+      status as
+        | 'cancle'
+        | 'ordered'
+        | 'rejected'
+        | 'delivered'
+        | 'in-transit'
+        | 'not-delivery',
+    );
+
+    // if there is no data
+    if (!data) {
+      return sendResponse(res, {
+        message: 'no data found!',
+        statusCode: httpStatus.NOT_FOUND,
+        success: false,
+      });
+    }
+
+    // when data fetched successfully
     return sendResponse(res, {
       message: 'Data fetched successfully!',
       statusCode: httpStatus.OK,
