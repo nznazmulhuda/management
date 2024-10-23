@@ -63,6 +63,7 @@ export const filterMoneyStatusDB = async (
     });
     const modifiedData: TSell[] = [];
 
+    // skip when the order status is cancle or rejected
     data.forEach(
       (sell) =>
         sell.order_status === 'cancle' ||
@@ -76,4 +77,15 @@ export const filterMoneyStatusDB = async (
   } else {
     return false;
   }
+};
+
+// filter on who get the order
+export const filterWhoGetOrderDB = async (
+  name: string,
+): Promise<TSell[] | boolean> => {
+  const data = await Sell.find({ who_get_the_order: name });
+
+  if (data) return data;
+
+  return false;
 };

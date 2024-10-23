@@ -7,6 +7,7 @@ import {
   filterByPriceDB,
   filterMoneyStatusDB,
   filterOnOrderStatusDB,
+  filterWhoGetOrderDB,
 } from './filter.service';
 
 // filter by name
@@ -135,6 +136,30 @@ export const filterMoneyStatus = catchAsync(
     }
 
     // when data fetched successfully
+    return sendResponse(res, {
+      message: 'Data fetched successfully!',
+      statusCode: httpStatus.OK,
+      success: true,
+      data: data,
+    });
+  },
+);
+
+// filter on who get the order
+export const filterWhoGetOrder = catchAsync(
+  async (req: Request, res: Response): Promise<void> => {
+    const { name } = req.params;
+
+    const data = await filterWhoGetOrderDB(name);
+
+    if (!data) {
+      return sendResponse(res, {
+        message: 'Unable to fetched data!',
+        statusCode: httpStatus.NOT_FOUND,
+        success: false,
+      });
+    }
+
     return sendResponse(res, {
       message: 'Data fetched successfully!',
       statusCode: httpStatus.OK,
