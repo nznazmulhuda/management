@@ -5,6 +5,7 @@ import sendResponse from '../../utils/sendResponse';
 import {
   filterByNameDB,
   filterByPriceDB,
+  filterMoneyStatusDB,
   filterOnOrderStatusDB,
 } from './filter.service';
 
@@ -102,6 +103,32 @@ export const filterOnOrderStatus = catchAsync(
     if (!data) {
       return sendResponse(res, {
         message: 'no data found!',
+        statusCode: httpStatus.NOT_FOUND,
+        success: false,
+      });
+    }
+
+    // when data fetched successfully
+    return sendResponse(res, {
+      message: 'Data fetched successfully!',
+      statusCode: httpStatus.OK,
+      success: true,
+      data: data,
+    });
+  },
+);
+
+// filter on money status
+export const filterMoneyStatus = catchAsync(
+  async (req: Request, res: Response): Promise<void> => {
+    const { moneyStatus } = req.params;
+
+    const data = await filterMoneyStatusDB(moneyStatus as 'unpaid' | 'paid');
+
+    // if there is no data found
+    if (!data) {
+      return sendResponse(res, {
+        message: 'No data found!',
         statusCode: httpStatus.NOT_FOUND,
         success: false,
       });

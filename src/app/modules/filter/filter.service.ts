@@ -52,3 +52,28 @@ export const filterOnOrderStatusDB = async (
     return false;
   }
 };
+
+// filter on money status
+export const filterMoneyStatusDB = async (
+  status: 'unpaid' | 'paid',
+): Promise<TSell[] | boolean> => {
+  if (status === 'unpaid') {
+    const data = await Sell.find({ money_status: status }).select({
+      who_get_the_order: 0,
+    });
+    const modifiedData: TSell[] = [];
+
+    data.forEach(
+      (sell) =>
+        sell.order_status === 'cancle' ||
+        sell.order_status === 'rejected' ||
+        modifiedData.push(sell),
+    );
+
+    return modifiedData;
+  } else if (status === 'paid') {
+    return await Sell.find({ money_status: status });
+  } else {
+    return false;
+  }
+};
