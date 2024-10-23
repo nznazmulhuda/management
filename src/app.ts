@@ -6,19 +6,21 @@ import { port } from './app/config';
 import UserRouter from './app/modules/user/user.route';
 import AuthRouter from './app/modules/auth/auth.route';
 import SellRouter from './app/modules/sell/sell.route';
+import FilterRouter from './app/modules/filter/filter.route';
 
 const app: Application = express();
 
 //parsers
+app.use(cors());
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 
 // app route
-app.use('/api', UserRouter);
-app.use('/api', AuthRouter);
-app.use('/api', SellRouter);
+app.use('/api', UserRouter); // all user route
+app.use('/api', AuthRouter); // login route
+app.use('/api', SellRouter); // sell route
+app.use('/api', FilterRouter); // filter route
 
 // default route
 app.get('/', (req: Request, res: Response) => {
