@@ -4,6 +4,7 @@ import {
   addCostDB,
   getAllCostsFromDB,
   getSingleCostFromDB,
+  updateCostDB,
 } from './cost.service';
 import sendResponse from '../../utils/sendResponse';
 import httpStatus from 'http-status';
@@ -75,6 +76,29 @@ export const addNewCost = catchAsync(
 
     return sendResponse(res, {
       message: 'New cost added successfully!',
+      statusCode: httpStatus.OK,
+      success: true,
+    });
+  },
+);
+
+// update old cost data
+export const updateCost = catchAsync(
+  async (req: Request, res: Response): Promise<void> => {
+    const { data } = req.body;
+
+    const isUpdate = updateCostDB(data);
+
+    if (!isUpdate) {
+      return sendResponse(res, {
+        message: 'Data not found! please try again...',
+        statusCode: httpStatus.NOT_FOUND,
+        success: false,
+      });
+    }
+
+    return sendResponse(res, {
+      message: 'Data update successfully!',
       statusCode: httpStatus.OK,
       success: true,
     });

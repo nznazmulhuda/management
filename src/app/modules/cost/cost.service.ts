@@ -32,6 +32,12 @@ export const addCostDB = async (data: TCost): Promise<TCost> => {
 };
 
 // update old cost
-export const updateCostDB = async (data: {data: TCost; id: string}) => {
-  
-}
+export const updateCostDB = async (data: { data: TCost; id: string }) => {
+  const isCostDataAvailable = await Cost.findById(data.id);
+
+  if (!isCostDataAvailable) {
+    return false;
+  }
+
+  return await Cost.findOneAndUpdate({ _id: data.id }, { $set: data.data });
+};
