@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import catchAsync from '../../utils/catchAsync';
 import {
   addCostDB,
+  deleteCostDB,
   getAllCostsFromDB,
   getSingleCostFromDB,
   updateCostDB,
@@ -87,7 +88,7 @@ export const updateCost = catchAsync(
   async (req: Request, res: Response): Promise<void> => {
     const { data } = req.body;
 
-    const isUpdate = updateCostDB(data);
+    const isUpdate = await updateCostDB(data);
 
     if (!isUpdate) {
       return sendResponse(res, {
@@ -104,3 +105,24 @@ export const updateCost = catchAsync(
     });
   },
 );
+
+// delete a cost data
+export const deleteCost = catchAsync(async (req: Request, res: Response) => {
+  const { id } = req.body;
+
+  const isDelete = await deleteCostDB(id);
+
+  if (!isDelete) {
+    return sendResponse(res, {
+      message: 'Unable to delete cost. Cost not found.',
+      statusCode: httpStatus.NOT_FOUND,
+      success: false,
+    });
+  }
+
+  return sendResponse(res, {
+    message: 'Cost deleted successfully!',
+    statusCode: httpStatus.OK,
+    success: true,
+  });
+});
