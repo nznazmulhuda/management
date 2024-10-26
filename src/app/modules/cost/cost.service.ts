@@ -30,3 +30,8 @@ export const getSingleCostFromDB = async (
 export const addCostDB = async (data: TCost): Promise<TCost> => {
   return await new Cost(data).save();
 };
+
+// update old cost
+export const updateCostDB = async (data: {data: TCost; id: string}) => {
+  
+}
