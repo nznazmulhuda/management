@@ -34,12 +34,12 @@ export const login = catchAsync(
       statusCode: httpStatus.OK,
       success: user.success,
       message: user.message,
+      token: token,
       data: {
         name: user.data?.name,
         email: user.data?.email,
         phone: user.data?.phone,
         role: user.data?.role,
-        token: token,
       },
     });
   },
