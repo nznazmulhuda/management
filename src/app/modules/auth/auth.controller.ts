@@ -8,9 +8,9 @@ import { jwt_secret_key } from '../../config';
 
 export const login = catchAsync(
   async (req: Request, res: Response): Promise<void> => {
-    const { email, password } = req.body;
+    const { email, password } = req.headers;
 
-    const user = await loginByEmail(email, password);
+    const user = await loginByEmail(email as string, password as string);
 
     if (!user.success) {
       return sendResponse(res, {

@@ -1,8 +1,10 @@
 import { Request, Response } from 'express';
 import httpStatus from 'http-status';
-import { getAllUserFromDB } from './user.service';
+import { getAllUserFromDB, getUserByEmailFromDB } from './user.service';
 import sendResponse from '../../utils/sendResponse';
+import catchAsync from '../../utils/catchAsync';
 
+// get all user
 export const getAllUser = async (
   req: Request,
   res: Response,
@@ -24,3 +26,26 @@ export const getAllUser = async (
     message: 'Data fetch Success!',
   });
 };
+
+// get user by email
+export const getUserByEmail = catchAsync(
+  async (req: Request, res: Response): Promise<void> => {
+    const { email } = req.headers;
+
+    const user = await getUserByEmailFromDB(email as string);
+
+    if (user) {
+      return sendResponse(res, {
+        message: 'User found!',
+        success: true,
+        statusCode: httpStatus.OK,
+      });
+    }
+
+    return sendResponse(res, {
+      message: 'User not found!',
+      success: false,
+      statusCode: httpStatus.NOT_FOUND,
+    });
+  },
+);

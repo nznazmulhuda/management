@@ -10,3 +10,12 @@ export const getAllUserFromDB = async (): Promise<TUser[]> => {
 export const getUserByIdFromDB = async (id: string): Promise<TUser | null> => {
   return await User.findById(id);
 };
+
+// get a single user by email
+export const getUserByEmailFromDB = async (
+  email: string,
+): Promise<TUser | null> => {
+  const data = await User.findOne({ email });
+
+  return data;
+};
