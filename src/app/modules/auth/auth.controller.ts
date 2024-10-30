@@ -4,7 +4,7 @@ import sendResponse from '../../utils/sendResponse';
 import httpStatus from 'http-status';
 import catchAsync from '../../utils/catchAsync';
 import jwt from 'jsonwebtoken';
-import { jwt_secret_key } from '../../config';
+import { cookieOptions, jwt_secret_key } from '../../config';
 
 export const login = catchAsync(
   async (req: Request, res: Response): Promise<void> => {
@@ -26,15 +26,14 @@ export const login = catchAsync(
       role: user.data?.role,
     };
 
-    const token = jwt.sign(paylod, jwt_secret_key as string, {
-      expiresIn: '1h',
-    });
+    const token = jwt.sign(paylod, jwt_secret_key as string);
+
+    res.cookie('token', token, cookieOptions);
 
     sendResponse(res, {
       statusCode: httpStatus.OK,
       success: user.success,
       message: user.message,
-      token: token,
       data: {
         name: user.data?.name,
         email: user.data?.email,
