@@ -1,5 +1,3 @@
-import { boolean } from 'zod';
-import { TSell } from '../sell/sell.interface';
 import { TCost } from './cost.interface';
 import { Cost } from './cost.model';
 
