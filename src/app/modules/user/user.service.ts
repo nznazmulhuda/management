@@ -19,3 +19,4 @@ export const getUserByEmailFromDB = async (
 
   return data;
 };
+

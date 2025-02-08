@@ -18,7 +18,7 @@ export const loginByEmail = async (
 
   if (!user) {
     return {
-      message: 'invalid email or password!',
+      message: 'invalid email or password',
       success: false,
     };
   }

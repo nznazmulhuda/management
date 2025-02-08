@@ -3,15 +3,12 @@ import { TSell } from './sell.interface';
 
 const SellSchema = new Schema<TSell>(
   {
-    customer_name: {
+    size: {
       type: String,
       required: true,
+      enum: ['M', 'L', 'XL', 'XXL'],
     },
-    customer_number: {
-      type: String,
-      required: true,
-    },
-    customer_address: {
+    color: {
       type: String,
       required: true,
     },
@@ -20,14 +17,35 @@ const SellSchema = new Schema<TSell>(
       required: true,
       default: 1,
     },
+    total_costing: {
+      type: Number,
+      required: true,
+      default: 0,
+    },
+    costing_per_tshirt: {
+      type: Number,
+      required: true,
+      default: 0,
+    },
+    single_tshirt_profit: {
+      type: Number,
+      required: true,
+      default: 0,
+    },
     total_price: {
       type: Number,
       required: true,
       default: 0,
     },
-    color: {
-      type: String,
+    single_price: {
+      type: Number,
       required: true,
+      default: 0,
+    },
+    profit: {
+      type: Number,
+      required: true,
+      default: 0,
     },
     order_status: {
       type: String,
@@ -48,16 +66,21 @@ const SellSchema = new Schema<TSell>(
       default: 'unpaid',
       enum: ['unpaid', 'paid'],
     },
-    single_price: {
-      type: Number,
+    customer_name: {
+      type: String,
       required: true,
-      default: 0,
+    },
+    customer_number: {
+      type: String,
+      required: true,
+    },
+    customer_address: {
+      type: String,
+      required: true,
     },
     who_get_the_order: {
       type: String,
       required: true,
-      default: 'hasib',
-      enum: ['nahid', 'hasib', 'akhirul'],
     },
   },
   {
